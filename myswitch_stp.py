@@ -1,13 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-'''
-Ethernet learning switch in Python.
-
-Note that this file currently has the code to implement a "hub"
-in it, not a learning switch.  (I.e., it's currently a switch
-that doesn' learn.)
-'''
-
 import sys
 import time
 from datetime import datetime
@@ -84,8 +74,7 @@ def emitStpPackets(stp_context, interfaces, net):
     now = datetime.now()
 
     if(not stp_context.am_i_root()):
-        log_debug("=========I am NOT THE root-=========")
-            
+        if stp_context.last_stm_received == None or (now - stp_context.last_stm_received).seconds >= 10:
             stp_context.become_root(interfaces)
     else:
         log_debug("=========I am ROOT ========")
